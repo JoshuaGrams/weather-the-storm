@@ -1,0 +1,30 @@
+.hide { display: none; }
+
+.fadein {
+	opacity: 1;
+	animation-name: fadeInOpacity;
+	animation-iteration-count: 1;
+	animation-timing-function: ease-in;
+	animation-duration: 0.5s;
+}
+
+@keyframes fadeInOpacity {
+	0% { opacity: 0; }
+	100% { opacity: 1; }
+}
+
+@keyframes pulseOpacity {
+	0% { opacity: 1; transform: translateX(15%); }
+	50% { opacity: 0.6; transform: translateX(0%); }
+	100% { opacity: 1; transform: translateX(15%); }
+}
+
+.continue:after {
+	content: " ➔";
+	white-space: pre;
+	display: inline-block;
+	animation-name: pulseOpacity;
+	animation-duration: 3s;
+	animation-timing-function: linear;
+	animation-iteration-count: infinite;
+}

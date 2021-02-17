@@ -1,0 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400&display=swap');
+
+body {
+	background: #bb8;
+	color: #142;
+	font-family: 'Lora', serif;
+	font-size: 150%;
+}
+
+a.macro-cycle, a.macro-link {
+	color: #486;
+}
+
+#passages {
+	margin-left: auto;
+	margin-right: auto;
+	max-width: 30em;
+}

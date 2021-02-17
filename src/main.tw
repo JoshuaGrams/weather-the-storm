@@ -1,0 +1,373 @@
+:: StoryTitle
+Weather the Storm
+
+:: StoryData
+{"ifid": "9C878E12-1F4A-4C1E-805E-425293C64396"}
+
+:: StoryInit
+/* Piecewise reveal */
+<<set setup.continueKeys to new Set([' ', 'Enter'])>>
+<<set setup.noContinue to new Set(['a', 'button', 'input', 'textarea'])>>
+<<set setup.continueVar to "$continued">>
+<<set $continued to {}>>
+
+/* Story Variables */
+<<set $chimneyClean to false>>
+<<set $fireplaceCovered to false>>
+<<set $cabinClean to true>>
+<<set $porchClean to false>>
+<<set $nest to false>>
+<<set $pan to "dusty">>
+<<set $me to "sweaty">>
+<<set $fed to false>>
+<<set $fireBurning to false>>
+<<set $bathMoved to false>>
+<<set $warnedAboutColdWater to false>>
+<<set $woodMoved to false>>
+<<set $saplingCut to false>>
+
+
+
+
+:: Start [nocommands]
+!!Weather the Storm
+
+@@.continue;To advance the text, press Space or Enter, or click anywhere on the page that's //not// a link.@@ @@.hide;Well, you might have to click first, to focus the page, but after that you should be able to use the keys.@@ @@.hide;&nbsp;
+
+Yup, just like that. Continue to the [[Introduction]].@@
+
+:: Introduction [nocommands]
+@@.continue;This is...ugh. Need to get away for a bit. //Do// something. Clear my head.@@ @@.hide;&nbsp;
+
+I haven't been to the cabin in a while. Plenty of time to hike up there before sunset. What's the weather doing?@@ @@.hide;&nbsp;
+
+There's a thunderstorm coming through tonight, but not till after dark.@@ @@.hide;&nbsp;
+
+And it would be good to check on the cabin, make sure it's set for the winter.@@ @@.hide;&nbsp;
+
+[[Do it->Hike]]@@
+
+:: Hike [nocommands]
+@@.continue;My backpack is dusty&mdash;it //has// been a while.@@ @@.hide;Sleeping bag,@@ @@.hide;a few groceries,@@ @@.hide;camp axe,@@ @@.hide;lighter.@@ @@.hide;Yeah, that should do it.@@
+
+@@.hide;...@@
+
+@@.hide;A few of the trees are starting to change color: the ones stressed from wet feet or poor rocky soil.@@ @@.hide;This fall has been a bit grey and dreary.@@ @@.hide;Hopefully this storm will clear the air and we'll start seeing the crisp nights and sunny days we need to get some good color.@@
+
+@@.hide;...@@
+
+@@.hide;Not much wildlife today.@@ @@.hide;Blue jays screaming, of course; can't get away from them.@@ @@.hide;A couple of turkey vultures circling lazily overhead.@@ @@.hide;Oh, and I startled a red squirrel who was too busy digging a hole at the base of a white pine to hear me approach.@@ @@.hide;He darted up the tree and ticked me off good and proper for scaring him.@@ @@.hide;It's good to be out in the ordinary little business of the woods.@@
+
+@@.hide;...@@
+
+@@.hide;[[And here we are.->Front Yard]]@@
+
+
+
+
+:: Front Yard
+<<if not $porchClean>><<run _nouns.push("porch")>><</if>>\
+<<if not $saplingCut>><<run _nouns.push("sapling")>><</if>>\
+A one-room [[cabin->Inside]], with a lovely deep porch spanning the whole front, and a [[lean-to|Woodshed]] on the right side. It's nestled partly into the [[hill->Behind Cabin]] that rises behind it. It looks to be in good shape<<if not $porchClean>>, though drifts of pine needles clog the corners of the porch<</if>>.<<if not $saplingCut>> A tall slim <<linkappend "ash sapling">> (it'll need to be removed soon, before its roots disrupt the cabin's foundation)<</linkappend>> stands just next to the cabin.<</if>>
+
+:: Inside
+<<run _nouns.push("fire", "pan")>>\
+<<if not $cabinClean>><<run _nouns.push("cabin")>><</if>>\
+<<if $bathMoved and not ($me eq "clean")>><<run _nouns.push("bath")>><</if>>\
+<<if not $chimneyClean and not $fireplaceCovered>><<run _nouns.push("chimney")>><</if>>\
+<<if $fed>><<run _nouns.push("lamp")>><</if>>\
+A stone <<linkappend "fireplace">> (big enough to sit in comfortably, if it weren't all soot and ash. Hmm. Should I be able to see light when I look up the chimney? Or does the rain cap block it all?)<</linkappend>> dominates one wall, with a cast-iron crane on one side that lets you swing a big kettle over the fire to pop corn or heat water. A cast-iron frying pan with a long wooden handle hangs on the other side.<<if $bathMoved and not ($me eq "clean")>> The tin bathtub sits near the fireplace.<</if>>
+
+A sink sits next to the [[front door->Front Yard]], under one of the windows overlooking the porch, and a ladder leads up to the small [[loft->Loft]].<<if not $cabinClean>>
+
+A layer of soot covers everything.<</if>>
+
+:: Loft
+<<if not $bathMoved>><<run _nouns.push("bath")>><</if>>\
+The coveted place to sleep when we were kids. A pair of mattresses take up most of the floor space.<<if not $bathMoved>> A tin bathtub hangs on the wall.<</if>> The ladder leads [[back down->Inside]].
+
+:: Woodshed
+<<if not $woodMoved>><<run _nouns.push("wood")>><</if>>\
+A small lean-to, mostly full of firewood. The porch and the [[front door->Inside]] are back to the left. Up the hill [[behind the cabin->Behind Cabin]] is nothing much but trees.
+
+:: Behind Cabin
+Up the hill is unbroken forest. The [[cabin->Front Yard]] is nestled into the hillside below. It was a mark of being a "big kid" when you could manage to clamber [[onto the roof->Cabin Roof]] from here.
+
+:: Cabin Roof
+<<if $saplingCut and not $chimneyClean>><<run _nouns.push("chimney")>><</if>>\
+There's an excellent view out over the town from here. The stone chimney is off to the right. [[Climb back down->Behind Cabin]].
+
+
+
+
+:: PassageHeader
+<<silently>>
+<<set _verbs to ["fill", "clean"]>>
+/* "make", "take", "douse" */
+<<set _nouns to ["me", "food"]>>
+/* "fire", "bath", "frying pan", "lamp", "sapling", "chimney", "bed" */
+<</silently>>
+
+:: PassageFooter
+<<if not tags().includes("nocommands")>><<silently>>
+<<if _nouns.includesAny("food", "bed")>>
+	<<run _verbs.push("make")>>
+<</if>>
+<<if _nouns.includesAny("bath", "sapling", "wood")>>
+	<<run _verbs.push("take")>>
+<</if>>
+<<if _nouns.includes("lamp")>>
+	<<run _verbs.push("light", "douse")>>
+<</if>>
+<</silently>>
+<<include "show commands">><</if>>
+
+:: show commands
+<<run _verbs.sort(); _nouns.sort()>>\
+<<set _show_commands to true>>\
+
+&gt; <<cycle "_verb" autoselect>><<optionsfrom _verbs>><</cycle>> \
+<<cycle "_noun" autoselect>><<optionsfrom _nouns>><</cycle>> \
+<<linkreplace "&#8629;">><<script>>
+	$('a.macro-cycle').replaceWith(function(){return $(this).contents()})
+	<</script>>\
+	<<set _cards to QBN.cards()>>\
+	<<run _cards.sort((a,b)=>QBN.tags(QBN.toPassage(b)).length - QBN.tags(QBN.toPassage(a)).length)>>
+
+	<<content `_cards[0]`>><<script>>window.setTimeout(function(){window.scrollTo(0,document.body.scrollHeight)},10)<</script>>
+	<<if _show_commands>>@@.hide;<<include "show commands">>@@<</if>>
+<</linkreplace>>\
+
+
+
+
+:: Funny thoughts [card]
+@@.continue;It's funny the thoughts that run through your head sometimes.@@
+
+:: What am I thinking? [card]
+@@.continue;Uh...no. What am I thinking?@@
+
+:: Huh [sticky-card]
+@@.continue;Huh?@@
+
+:: Why [sticky-card]
+@@.continue;Why?@@
+
+:: clean porch [card]
+/*QBN
+	req: _verb eq "clean"
+	req: _noun eq "porch"
+*/<<set $porchClean to true>><<run _nouns.delete("porch")>>\
+@@.continue;Looks like the white pines didn't drop many needles this year.@@ @@.hide;I think the needles usually last for two or three years, so it's a bit variable.@@ @@.hide;Some years (especially if rain manages to blow into the porch) you have to take a shovel and scrape out the corners. But this year a broom is enough.@@
+
+:: take wood [card]
+/*QBN
+	req: _verb eq "take"
+	req: _noun eq "wood"
+*/<<set $woodMoved to true>><<run _nouns.delete("wood")>>\
+@@.continue;A simple canvas firewood sling hangs on the wall.@@ @@.hide;When we were little it would take //many// trips to fill the woodbox inside.@@ @@.hide;I'm sure we could have carried just as much wood in our arms, but using the sling made it more special and fun somehow.@@ @@.hide;As an adult, it only takes about four full loads.@@
+
+:: make fire (woodbox empty) [sticky-card]
+/*QBN req-verb-eq-make req-noun-eq-fire
+	req-not-woodMoved */\
+@@.continue;The woodbox is empty.@@
+
+:: make fire (chimney clogged) [card]
+/*QBN req-verb-eq-make req-noun-eq-fire
+	req-woodMoved req-not-chimneyClean req-not-fireBurning */\
+<<addcard "make fire (chimney still clogged)" true>>\
+<<set _show_commands to false>>\
+@@.continue;Dad always brought old newspapers up with him, but Aunt Cecilia knew all the wilderness survival tricks and taught us to make feather sticks.@@ @@.hide;She was //totally// not a survivalist but she loved any sort of crafting or tinkering.@@ @@.hide;I've always loved the feel of carving fine shavings and the smell of pine, so it's my preferred method.@@ @@.hide;&nbsp;
+
+...@@ @@.hide;&nbsp;
+
+Ha. Perfect. Caught first try.@@ @@.hide;&nbsp;
+
+...Ah, crud, the chimney's not drafting. Smoke filling the cabin. Uh...@@ @@.hide;the big kettle.@@ @@.hide;Pump it full at the sink,@@ @@.hide;dump it over the fire,@@ @@.hide;make a run for the [[front door->Front Yard]].@@
+
+:: make fire (chimney still clogged)
+/*QBN req-verb-eq-make req-noun-eq-fire
+	req-woodMoved req-not-chimneyClean req-not-fireBurning */\
+@@.continue;I need to clear out whatever's blocking the chimney first.@@
+
+:: make fire (chimney clear) [card]
+/*QBN req-verb-eq-make req-noun-eq-fire
+	req-chimneyClean req-not-fireBurning */\
+<<set $fireBurning to true>>\
+@@.continue;I grabbed a couple dry pieces of pine on the way up here. Shave a feather stick, arrange some kindling with some bigger pieces of wood on top, and...@@ @@.hide;there we go. Burning beautifully.@@<<if $me neq "clean">> @@.hide;&nbsp;
+
+Oh, and I'll fill the big kettle with water, set that to heat so I can wash up: I'm all $me.@@<</if>>
+
+:: take sapling [card]
+/*QBN req-verb-eq-take req-noun-eq-sapling */\
+<<set $saplingCut to true>><<run _nouns.delete("sapling")>>\
+@@.continue;I planted an ash helicopter a few years back and it actually sprouted so I lobbied to let it grow for a bit.@@ @@.hide;I don't know what I was thinking putting it so close to the cabin.@@ @@.hide;I'll chop it down now and dig out the stump tomorrow.@@ @@.hide;If I leave the trunk here to dry, next spring I can carve it to make a tall elegant walking-staff.@@
+
+:: fill chimney [card]
+/* This is the joker in the deck: it's a weird command but it lets you clean the chimney without getting soot everywhere. */\
+/*QBN req-verb-eq-fill req-noun-eq-chimney */\
+<<set $fireplaceCovered to true>><<run _nouns.delete("chimney")>>\
+@@.continue;If I'm going to try to clean the chimney, I need to block up the fireplace or the soot will go //everywhere//. Hmm...@@ @@.hide;there's an old blanket around somewhere that we use to towel off the dogs when they're muddy.@@ @@.hide;Yeah, if I wedge the top edge in the crack under the mantelpiece here...@@ @@.hide;and here...@@ @@.hide;and weight the bottom down with some firewood...@@ @@.hide;that'll probably do it.@@
+
+:: clean chimney [sticky-card]
+/*QBN req-verb-eq-clean req-noun-eq-chimney req-not-saplingCut */\
+I don't have anything long enough to reach into the chimney.
+
+:: clean chimney (from inside) [card]
+/*QBN
+	req: _verb eq "clean"
+	req: _noun eq "chimney"
+	req: $saplingCut
+	req: passage() eq "Inside"
+*/\
+<<set $chimneyClean to true>><<set $nest to true>>\
+<<set $me to "sooty">><<set $cabinClean to false>>\
+<<run _nouns.delete("chimney"); _nouns.push("cabin"); _nouns.sort()>>\
+@@.continue;OK, let's see if I can use the sapling to reach whatever's blocking the chimney.@@ @@.hide;Good thing this fireplace is big enough I can fit it up through the opening.@@ @@.hide;&nbsp;
+
+Gah! Ptuh!@@ @@.hide;Ugh! That was stupid! Of //course// it's going to come down right in my face.@@ @@.hide;Do I dare try to open my eyes with half a pound of soot on my face? Where's the sink? Ah. There's the pump handle.@@ @@.hide;&nbsp;
+
+OK. Did I get the chimney clear, at least?@@ @@.hide;There's a bird's nest...and, yup, I can see a bit of light glowing in from the top.@@
+
+:: clean chimney (from above) [card]
+/*QBN
+	req: _verb eq "clean"
+	req: _noun eq "chimney"
+	req: $saplingCut
+	req: passage() eq "Cabin Roof"
+*/\
+<<set $chimneyClean to true>><<run _nouns.delete("chimney")>>\
+@@.continue;You know, when Drew gave me this multi-tool for my birthday, I didn't have the heart to tell him that I'd only ever use it as a clunky pocket knife.@@ @@.hide;Glad I didn't: he'd have a great time saying "I told you so" now that I've needed the screwdriver to get this chimney cap off.@@ @@.hide;OK, let's see if I can reach the obstruction with this sapling.@@ @@.hide;Yup, there's something...and there it goes.@@<<if not $fireplaceCovered>><<set $cabinClean to false>> @@.hide;...@@ @@.hide;Oh no. I should have covered the fireplace. There'll be soot everywhere now.@@<</if>> @@.hide;I don't feel anything else in there, so I'll put the cap back on and call it good.@@
+
+:: clean cabin (sooty) [card]
+/*QBN req-verb-eq-clean req-noun-eq-cabin */\
+<<set $cabinClean to true>><<run _nouns.delete("cabin")>>\
+@@.continue;Yup. Soot everywhere.<<if not $nest>> Ah, looks like it was a bird's nest blocking the chimney.<</if>>@@ @@.hide;Well, nothing for it but to get cleaning.@@ @@.hide;&nbsp;
+
+...@@ @@.hide;&nbsp;
+
+OK, that wasn't //so// bad. It helps that the cabin is pretty bare. Imagine if we had tons of knick-knacks like the Murchisons do.@@
+
+:: take bath (down from loft) [card]
+/*QBN req-verb-eq-take req-noun-eq-bath req-not-bathMoved */\
+<<set $bathMoved to true>>\
+<<set _show_commands to false>>\
+@@.continue;An old tin bathtub. You can still see the dents from when Drew dropped it off the edge rather than getting someone to help carry it down.@@ @@.hide;As an adult it's manageable by yourself, though a little awkward.@@ @@.hide;I like to wear it over my head and back so my hands are free for climbing down the ladder.@@ @@.hide;&nbsp;
+
+[[Take it downstairs.->Inside]]@@
+
+:: clean me (warn about cold water) [card]
+/*QBN req-verb-eq-clean req-noun-eq-me
+	req-bathMoved req-not-fireBurning req-not-warnedAboutColdWater */\
+<<include "take bath (warn about cold water)">>
+:: fill bath (warn about cold water) [card]
+/*QBN req-verb-eq-fill req-noun-eq-bath
+	req-bathMoved req-not-fireBurning req-not-warnedAboutColdWater */\
+<<include "take bath (warn about cold water)">>
+:: take bath (warn about cold water) [card]
+/*QBN req-verb-eq-take req-noun-eq-bath
+	req-bathMoved req-not-fireBurning req-not-warnedAboutColdWater */\
+<<set $warnedAboutColdWater to true>>\
+@@.continue;Do I really want to take a sponge bath in cold water?@@
+
+:: clean me (with cold water) [card]
+/*QBN req-verb-eq-clean req-noun-eq-me
+	req-bathMoved req-not-fireBurning req-warnedAboutColdWater */\
+<<include "take bath (with cold water)">>
+:: fill bath (with cold water) [card]
+/*QBN req-verb-eq-fill req-noun-eq-bath
+	req-bathMoved req-not-fireBurning req-warnedAboutColdWater */\
+<<include "take bath (with cold water)">>
+:: take bath (with cold water) [card]
+/*QBN req-verb-eq-take req-noun-eq-bath
+	req-bathMoved req-not-fireBurning req-warnedAboutColdWater */\
+<<set $me to "clean">>\
+@@.continue;Eesh, that's cold. And I've got soot everywhere so I can't get away with just a quick wipe-down.@@ @@.hide;&nbsp;
+
+...@@ @@.hide;&nbsp;
+
+Brr. OK, time to get this fire going.@@
+
+:: clean me (with warm water) [card]
+/*QBN req-verb-eq-clean req-noun-eq-me
+	req-bathMoved req-fireBurning */\
+<<include "take bath (with warm water)">>
+:: fill bath (with warm water) [card]
+/*QBN req-verb-eq-fill req-noun-eq-bath
+	req-bathMoved req-fireBurning */\
+<<include "take bath (with warm water)">>
+:: take bath (with warm water) [card]
+/*QBN req-verb-eq-take req-noun-eq-bath
+	req-bathMoved req-fireBurning */\
+<<set $me to "clean">>\
+@@.continue;OK, I think that water should be about hot.@@ @@.hide;Too hot, yeah. Temper it with a little cold water.@@<<if $me eq "sooty">> @@.hide;About time, too: I have soot //everywhere//.@@<</if>> @@.hide;Ahhh. Even though it's a primitive nuisance, there's something about a sponge bath in a tub in front of an open fire, all by yourself in the middle of nowhere.@@
+
+:: clean pan (before food) [card]
+/*QBN req-verb-eq-clean req-noun-eq-pan req-not-fed req-pan-neq-clean */\
+<<set $pan to "clean">>\
+@@.continue;I see the soap, but where did we leave the scrubber?@@ @@.hide;Oh, just hiding back in the corner.@@ @@.hide;Yeah. We're not one of those families that gets all precious about our cast-iron cookware.@@ @@.hide;This pan is older than I am, and so well-used you'd have to //really// scrub it to destroy the seasoning.@@ @@.hide;OK, time for food.@@
+
+:: clean pan (after food) [card]
+/*QBN req-verb-eq-clean req-noun-eq-pan req-fed req-pan-neq-clean */\
+<<set $pan to "clean">>\
+@@.continue;I hate getting up in the morning and having to do dishes before making breakfast.@@ @@.hide;I'd much rather clean up now, even if I'm tired and it would be easy to just sit in front of the fire and fall asleep.@@
+
+:: make food (no fire) [sticky-card]
+/*QBN req-verb-eq-make req-noun-eq-food req-not-fireBurning */\
+@@.continue;I need a fire to cook on.@@
+
+:: make food (dirty pan) [sticky-card]
+/*QBN req-verb-eq-make req-noun-eq-food req-pan-neq-clean */\
+@@.continue;I'm not cooking in a $pan frying pan.@@
+
+:: make food (bath first) [sticky-card]
+/*QBN req-verb-eq-make req-noun-eq-food
+	req-pan-eq-clean req-fireBurning req-me-neq-clean */\
+@@.continue;The fire is too hot to cook on: I should clean up while I wait for it to burn down a bit.@@
+
+:: make food [card]
+/*QBN req-verb-eq-make req-noun-eq-food
+	req-pan-eq-clean req-fireBurning req-me-eq-clean */\
+<<set $fed to true>>\
+@@.continue;And... here comes the rain. I've always loved how quickly the storms blow in on the mountains, though it can be dangerous when you don't pay attention and get stuck in them.@@ @@.hide;The storm is making it dark in here though. Let me get the lamp going.@@ @@.hide;&nbsp;
+
+OK, food. Got a nice bed of coals going. Splash some oil in the pan, and chop some potatoes while waiting for it to heat.@@ @@.hide;Whoops, the oil is definitely shimmering now.@@ @@.hide;Yeah. There's nothing like the smell of frying potatoes over an open fire.@@ @@.hide;I'm not going to bother neatly frying my eggs tonight, I'll just scramble them in with the potatoes.@@
+
+@@.hide;It's all going the same place anyway.@@ @@.hide;And, uh, after a day like this it's a good thing no-one is around to see my table manners.@@
+
+:: bank fire [card]
+/*QBN req-verb-eq-douse req-noun-eq-fire req-fireBurning req-me-eq-clean req-fed */\
+<<addcard "douse fire" true>>\
+@@.continue;Yeah, time to bank the fire for the night. Rake the coals into a neat pile, throw a big log or two on top to burn slowly, pull the screen across to keep the cabin from burning down.@@
+
+:: douse fire [sticky-card]
+/*QBN req-verb-eq-douse req-noun-eq-fire req-fireBurning */\
+<<if $me eq "clean" and $fed>>No, it'll be cold tonight: I need to keep it going.
+<<else>>No, I still need it.
+<</if>>
+
+:: douse lamp (not bedtime) [sticky-card]
+/*QBN
+	req: _verb eq "douse"
+	req: _noun eq "lamp"
+	req: not ($me eq "clean") or not $fed
+*/\
+@@.continue;<<if $me eq "clean">>I'm too hungry to sleep.
+<<elseif $fed>>I don't like going to sleep $me.
+<<else>>I'm too hungry and $me to sleep.<</if>>@@
+
+:: douse lamp (go to bed) [card]
+/*QBN req-verb-eq-douse req-noun-eq-lamp req-me-eq-clean req-fed */\
+<<set _show_commands to false>>\
+@@.continue;Whew! What a day.@@ @@.hide;And tomorrow I'll have to go back to my normal life and deal with that whole mess.@@ @@.hide;But after a good plain meal, with an open fire crackling, a toasty-warm cabin with a storm washing the world clean outside,@@ @@.hide;it seems...maybe a little bit more manageable?@@ @@.hide;&nbsp;
+
+[[Good night.->The End]]@@
+
+
+
+:: The End [nocommands]
+!! Weather the Storm
+
+Joshua Grams, February 2021, for Fortnightly Fiction Jam 8
+
+<<link "Restart">><<run UI.restart()>><</link>>
