@@ -108,7 +108,7 @@ There's an excellent view out over the town from here. The stone chimney is off 
 /* "fire", "bath", "frying pan", "lamp", "sapling", "chimney", "bed" */
 <</silently>>
 
-:: PassageFooter
+:: footer
 <<if not tags().includes("nocommands")>><<silently>>
 <<if _nouns.includesAny("food", "bed")>>
 	<<run _verbs.push("make")>>
@@ -135,7 +135,9 @@ There's an excellent view out over the town from here. The stone chimney is off 
 	<<run _cards.sort((a,b)=>QBN.tags(QBN.toPassage(b)).length - QBN.tags(QBN.toPassage(a)).length)>>
 
 	<<content `_cards[0]`>><<script>>window.setTimeout(function(){window.scrollTo(0,document.body.scrollHeight)},10)<</script>>
-	<<if _show_commands>>@@.hide;<<include "show commands">>@@<</if>>
+	<<if _show_commands>>@@.hide;&nbsp;
+	Exits: _links\
+	<<include "show commands">>@@<</if>>
 <</linkreplace>>\
 
 
